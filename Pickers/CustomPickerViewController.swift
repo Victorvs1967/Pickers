@@ -31,12 +31,14 @@ class CustomPickerViewController: UIViewController, UIPickerViewDelegate, UIPick
         numInRow = 1
       }
       lastVal = newValue
+      
       picker.selectRow(newValue, inComponent: i, animated: true)
       picker.reloadComponent(i)
       if numInRow >= 3 {
         win = true
       }
     }
+    
     if crunchSoundID == 0 {
       let soundURL = Bundle.main.url(forResource: "crunch", withExtension: "wav")! as CFURL
       AudioServicesCreateSystemSoundID(soundURL, &crunchSoundID)
@@ -51,6 +53,7 @@ class CustomPickerViewController: UIViewController, UIPickerViewDelegate, UIPick
     button.isHidden = true
     winLabel.text = " "
   }
+  
   // MARK: Picker Data Source
   func numberOfComponents(in pickerView: UIPickerView) -> Int {
     return 5
@@ -99,9 +102,10 @@ class CustomPickerViewController: UIViewController, UIPickerViewDelegate, UIPick
     if winSoundID == 0 {
       let soundURL = Bundle.main.url(forResource: "win", withExtension: "wav")! as CFURL
       AudioServicesCreateSystemSoundID(soundURL, &winSoundID)
-      winLabel.text = "WINNER!"
-      DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: { self.showButton() })
     }
+    AudioServicesPlaySystemSound(winSoundID)
+    winLabel.text = "WINNER!"
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: { self.showButton() })
   }
 
     /*
